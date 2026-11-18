@@ -1,77 +1,113 @@
-# Tugas 4 - REST API Dasar
+# Tugas 4 - REST API Koleksi Tanaman Hias
 
 ## Identitas
-- Nama: [ADITYA]
-- NIM: [F1D02310032]
 
-## Deskripsi Tugas
-API ini menyajikan koleksi tanaman hias beserta kebutuhan cahaya, frekuensi penyiraman, dan tingkat perawatannya. Topik dipilih untuk berlatih menyimpan data bertopik selain data mahasiswa dalam array of object dan mengaksesnya melalui REST API.
+- Nama: ADITYA
+- NIM: F1D02310032
 
-## Cara Menjalankan
-1. Pastikan Node.js versi 18 atau lebih baru sudah terpasang.
-2. Jalankan `npm install`.
-3. Jalankan server dengan `npm run dev`.
-4. Buka `http://localhost:3000`.
-5. Untuk menjalankan pengujian otomatis, jalankan `npm test`.
+## Deskripsi
 
-## Daftar Endpoint
-| Method | URL | Fungsi | Status |
-|--------|-----|--------|--------|
-| GET | `/` | Pesan sambutan | 200 |
-| GET | `/tanaman-hias` | Menampilkan semua tanaman hias | 200 |
-| GET | `/tanaman-hias/:id` | Menampilkan satu tanaman berdasarkan ID | 200 / 404 |
-| DELETE | `/tanaman-hias/:id` | Menghapus tanaman berdasarkan ID (opsional) | 204 / 404 |
+REST API ini menyediakan data koleksi tanaman hias, termasuk kebutuhan cahaya,
+frekuensi penyiraman, dan tingkat perawatan. Data contoh disimpan dalam array
+di memori aplikasi.
 
-Response sukses untuk endpoint data menggunakan format `{ "data": ... }`. Response gagal menggunakan format `{ "error": { "pesan": "...", "kode": 404 } }`. Data DELETE hanya disimpan di memori dan kembali seperti semula setelah server dimulai ulang.
+## Persyaratan
 
-## Bentuk Data
-Data disimpan dalam `src/data/tanaman-hias.js`. Contoh:
+- Node.js versi 18 atau lebih baru
+- npm
+
+## Menjalankan aplikasi
+
+```bash
+npm install
+npm run dev
+```
+
+Server berjalan di `http://localhost:3000`. Untuk menjalankan tanpa mode watch,
+gunakan `npm start`.
+
+## Endpoint
+
+| Method | Endpoint | Hasil |
+| --- | --- | --- |
+| `GET` | `/` | Pesan sambutan (`200`) |
+| `GET` | `/tanaman-hias` | Daftar tanaman (`200`) |
+| `GET` | `/tanaman-hias/:id` | Detail tanaman (`200`) atau error (`404`) |
+| `DELETE` | `/tanaman-hias/:id` | Hapus tanaman (`204`) atau error (`404`) |
+
+Contoh respons sukses:
 
 ```json
 {
-  "id": 1,
-  "nama": "Monstera deliciosa",
-  "cahaya": "Cahaya tidak langsung",
-  "penyiraman": "1 kali per minggu",
-  "tingkatPerawatan": "Mudah"
+  "data": {
+    "id": 1,
+    "nama": "Monstera deliciosa",
+    "cahaya": "Cahaya tidak langsung",
+    "penyiraman": "1 kali per minggu",
+    "tingkatPerawatan": "Mudah"
+  }
 }
 ```
 
-- `id`: angka unik untuk identifikasi tanaman.
-- `nama`: nama tanaman hias.
-- `cahaya`: kondisi cahaya yang disarankan.
+Endpoint daftar mengembalikan array tanaman di dalam properti `data`. Respons
+error menggunakan bentuk berikut:
+
+```json
+{
+  "error": {
+    "pesan": "Tanaman hias tidak ditemukan.",
+    "kode": 404
+  }
+}
+```
+
+Operasi `DELETE` hanya mengubah data di memori. Data akan kembali seperti semula
+ketika server dimulai ulang.
+
+## Data
+
+Data awal berada di [`src/data/tanaman-hias.js`](src/data/tanaman-hias.js) dan
+berisi 10 tanaman. Setiap objek memiliki properti:
+
+- `id`: ID tanaman.
+- `nama`: nama tanaman.
+- `cahaya`: rekomendasi kondisi cahaya.
 - `penyiraman`: frekuensi penyiraman.
-- `tingkatPerawatan`: perkiraan tingkat kemudahan perawatan.
+- `tingkatPerawatan`: perkiraan tingkat perawatan.
 
 ## Pengujian
-Pengujian otomatis dapat dijalankan dengan `npm test`. Sebelum dikumpulkan, jalankan server dan ambil screenshot nyata dari Postman, Thunder Client, Bruno, atau REST Client. Simpan bukti di folder `screenshot/`.
 
-### Server berjalan
-Screenshot: `screenshot/server.png` (tambahkan sebelum pengumpulan)
+Jalankan pengujian otomatis dengan:
 
-### GET daftar
-Screenshot: `screenshot/get-daftar.png` (tambahkan sebelum pengumpulan)
+```bash
+npm test
+```
 
-### GET detail (id ada)
-Screenshot: `screenshot/get-detail-ada.png` (tambahkan sebelum pengumpulan)
+Screenshot hasil percobaan endpoint tersedia di [`screenshot/`](screenshot/):
 
-### GET detail (id tidak ada)
-Screenshot: `screenshot/get-detail-404.png` (tambahkan sebelum pengumpulan)
+| Berkas | Percobaan |
+| --- | --- |
+| [`server.png`](screenshot/server.png) | Server dan endpoint sambutan |
+| [`get-daftar.png`](screenshot/get-daftar.png) | GET daftar tanaman |
+| [`get-detail-ada.png`](screenshot/get-detail-ada.png) | GET detail dengan ID yang tersedia |
+| [`get-detail-404.png`](screenshot/get-detail-404.png) | GET detail dengan ID yang tidak tersedia |
+| [`delete-204.png`](screenshot/delete-204.png) | DELETE berhasil dengan status `204` |
+| [`get-daftar-setelah-delete.png`](screenshot/get-daftar-setelah-delete.png) | Daftar setelah penghapusan |
 
-### DELETE berhasil dan daftar setelah penghapusan
-Screenshot: `screenshot/delete-204.png` dan `screenshot/get-daftar-setelah-delete.png` (tambahkan sebelum pengumpulan)
+Gambar-gambar tersebut adalah tangkapan tampilan browser yang dibuat dari
+respons HTTP API lokal yang diuji; gambar bukan tangkapan layar Postman atau
+Thunder Client.
 
-## Deklarasi Penggunaan AI
-| Bagian | Alat AI | Dipakai untuk apa | Bagaimana saya memeriksa hasilnya |
-|--------|---------|-------------------|-----------------------------------|
-| Data (`src/data/tanaman-hias.js`) | Copilot | Menyusun 10 contoh data tanaman hias dan field yang relevan | Memeriksa jumlah data, ID unik, dan keberadaan minimal tiga field tambahan |
-| Route (`src/app.js`, `index.js`) | Copilot | Menulis endpoint GET, penanganan 404, dan endpoint bonus DELETE | Menjalankan `npm test` dan mencoba endpoint dengan klien HTTP |
-| Pengujian (`test/api.test.js`) | Copilot | Menyusun pengujian otomatis untuk endpoint utama | Menjalankan `npm test` dan memeriksa status serta bentuk response |
-| README | Copilot | Menyusun dokumentasi cara menjalankan, endpoint, format data, dan deklarasi | Mencocokkan dokumentasi dengan implementasi dan instruksi tugas |
+## Deklarasi penggunaan AI
 
-Contoh prompt yang digunakan: "Buatkan REST API dasar dengan Express untuk resource koleksi tanaman hias, minimal 10 data, GET daftar, GET detail dengan 404, DELETE opsional, serta format response data/error yang konsisten."
+Copilot digunakan sebagai alat bantu selama pengerjaan, termasuk untuk
+menyusun dan meninjau contoh data, route API, pengujian, dan dokumentasi.
+Copilot juga membantu membuat gambar bukti percobaan dari respons yang
+dikembalikan API lokal. Saya menjalankan `npm test` dan mencoba endpoint untuk
+memeriksa status serta bentuk respons. Penggunaan AI tidak menggantikan
+pemeriksaan dan tanggung jawab saya atas hasil akhir.
 
-Pernyataan: Saya menggunakan AI pada bagian-bagian yang tertulis di tabel. Saya memeriksa hasilnya dengan membaca kode dan menjalankan pengujian otomatis. Saya bertanggung jawab memahami dan memverifikasi kode sebelum mengumpulkannya.
+## Kesimpulan
 
-## Kesimpulan & Kendala
-Tugas ini melatih pembuatan server Express, pengelolaan data array, penggunaan parameter route, dan pemakaian status HTTP serta format response yang konsisten. Periksa kembali setiap endpoint dengan klien HTTP dan lengkapi screenshot pengujian sebelum mengumpulkan.
+Proyek ini mempraktikkan pembuatan REST API dengan Express, pengelolaan array
+of objects, parameter route, status HTTP, serta pengujian endpoint.
