@@ -1,8 +1,8 @@
 # Tugas 4 - REST API Dasar
 
 ## Identitas
-- Nama: [Isi nama lengkap]
-- NIM: [Isi NIM]
+- Nama: [ADITYA]
+- NIM: [F1D02310032]
 
 ## Deskripsi Tugas
 API ini menyajikan koleksi tanaman hias beserta kebutuhan cahaya, frekuensi penyiraman, dan tingkat perawatannya. Topik dipilih untuk berlatih menyimpan data bertopik selain data mahasiswa dalam array of object dan mengaksesnya melalui REST API.
